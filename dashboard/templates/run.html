@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}{{ run.run_name }} - ML Experiment Tracker{% endblock %}
+{% block content %}
+<div style="margin-bottom: 1rem;">
+    <a href="/experiment/{{ run.experiment_id }}">&larr; Back to Experiment</a>
+</div>
+
+<div class="card">
+    <h2>{{ run.run_name }}</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--text-muted);">
+        <span>Status: <span class="badge badge-{{ run.status }}">{{ run.status }}</span></span>
+        <span>Started: {{ run.start_time }}</span>
+        <span>Ended: {{ run.end_time }}</span>
+        <span>Duration: {{ run.duration }}</span>
+        <span>ID: {{ run.run_id }}</span>
+    </div>
+    {% if run.notes %}
+    <p style="margin-top: 0.75rem; padding: 0.5rem; background: #f8f9fa; border-radius: 4px; font-size: 0.9rem;">
+        {{ run.notes }}
+    </p>
+    {% endif %}
+    {% if run.tags %}
+    <div style="margin-top: 0.5rem;">
+        {% for key, value in run.tags.items() %}
+        <span class="tag">{{ key }}={{ value }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h2>Parameters</h2>
+        {% if run.parameters %}
+        <table class="param-table">
+            <tbody>
+                {% for key, value in run.parameters.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: var(--text-muted);">No parameters logged.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2>Artifacts</h2>
+        {% if run.artifacts %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Path</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for artifact in run.artifacts %}
+                <tr>
+                    <td>{{ artifact.name }}</td>
+                    <td>{{ artifact.type }}</td>
+                    <td>{{ artifact.size }}</td>
+                    <td style="font-size: 0.8rem; word-break: break-all;">{{ artifact.path }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: var(--text-muted);">No artifacts logged.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if charts %}
+<h2 style="margin: 1.5rem 0 1rem;">Metric Charts</h2>
+<div class="grid-2">
+    {% for metric_name, chart_b64 in charts.items() %}
+    <div class="card">
+        <h2>{{ metric_name }}</h2>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart_b64 }}" alt="{{ metric_name }} chart">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Experiments - ML Experiment Tracker{% endblock %}
+{% block content %}
+<h2 style="margin-bottom: 1rem;">All Experiments</h2>
+{% if experiments %}
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Runs</th>
+                <th>Created</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exp in experiments %}
+            <tr>
+                <td><a href="/experiment/{{ exp.experiment_id }}">{{ exp.name }}</a></td>
+                <td>{{ exp.description }}</td>
+                <td>{{ exp.num_runs }}</td>
+                <td>{{ exp.created_at }}</td>
+                <td>
+                    {% for key, value in exp.tags.items() %}
+                    <span class="tag">{{ key }}={{ value }}</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card empty-state">
+    <p>No experiments found.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Use the Python API or CLI to create experiments and log runs.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

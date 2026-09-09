@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}{{ experiment.name }} - ML Experiment Tracker{% endblock %}
+{% block content %}
+<div style="margin-bottom: 1rem;">
+    <a href="/">&larr; All Experiments</a>
+</div>
+
+<div class="card">
+    <h2>{{ experiment.name }}</h2>
+    {% if experiment.description %}
+    <p style="color: var(--text-muted); margin-bottom: 0.5rem;">{{ experiment.description }}</p>
+    {% endif %}
+    <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Created: {{ experiment.created_at }} | ID: {{ experiment.experiment_id }}
+    </p>
+    {% if experiment.tags %}
+    <div style="margin-top: 0.5rem;">
+        {% for key, value in experiment.tags.items() %}
+        <span class="tag">{{ key }}={{ value }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% if runs %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="margin-bottom: 0;">Runs ({{ runs|length }})</h2>
+        <form action="/compare" method="POST" id="compare-form">
+            <button type="submit" class="btn btn-primary">Compare Selected</button>
+        </form>
+    </div>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all"></th>
+                    <th>Run Name</th>
+                    <th>Status</th>
+                    <th>Started</th>
+                    <th>Duration</th>
+                    <th>Parameters</th>
+                    <th>Metrics</th>
+                    <th>Artifacts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for run in runs %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="run_ids" value="{{ run.run_id }}" form="compare-form">
+                    </td>
+                    <td><a href="/run/{{ run.run_id }}">{{ run.run_name }}</a></td>
+                    <td>
+                        <span class="badge badge-{{ run.status }}">{{ run.status }}</span>
+                    </td>
+                    <td>{{ run.start_time }}</td>
+                    <td>{{ run.duration }}</td>
+                    <td>
+                        {% for key, value in run.parameters.items() %}
+                        <span style="font-size: 0.8rem;">{{ key }}={{ value }}</span><br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for key, value in run.metrics.items() %}
+                        <span style="font-size: 0.8rem;">{{ key }}={{ value }}</span><br>
+                        {% endfor %}
+                    </td>
+                    <td>{{ run.num_artifacts }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="card empty-state">
+    <p>No runs recorded for this experiment yet.</p>
+</div>
+{% endif %}
+
+<script>
+document.getElementById('select-all').addEventListener('change', function() {
+    document.querySelectorAll('input[name="run_ids"]').forEach(function(cb) {
+        cb.checked = this.checked;
+    }.bind(this));
+});
+</script>
+{% endblock %}

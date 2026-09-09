@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Run Comparison - ML Experiment Tracker{% endblock %}
+{% block content %}
+<div style="margin-bottom: 1rem;">
+    <a href="/compare">&larr; Back to Selection</a>
+</div>
+
+<h2 style="margin-bottom: 1rem;">Run Comparison ({{ comparison|length }} runs)</h2>
+
+<div class="card">
+    <h2>Parameters &amp; Final Metrics</h2>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    {% for run_id, label in run_labels.items() %}
+                    <th>{{ label }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Status</strong></td>
+                    {% for run_id, data in comparison.items() %}
+                    <td><span class="badge badge-{{ data.status }}">{{ data.status }}</span></td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td><strong>Duration</strong></td>
+                    {% for run_id, data in comparison.items() %}
+                    <td>{{ "%.1f"|format(data.duration_seconds) if data.duration_seconds else "N/A" }}s</td>
+                    {% endfor %}
+                </tr>
+                {% for pkey in param_keys %}
+                <tr>
+                    <td>param.{{ pkey }}</td>
+                    {% for run_id, data in comparison.items() %}
+                    <td>{{ data.parameters.get(pkey, "N/A") }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                {% for mkey in metric_keys %}
+                <tr>
+                    <td><strong>metric.{{ mkey }}</strong></td>
+                    {% for run_id, data in comparison.items() %}
+                    <td>{{ "%.6f"|format(data.metrics.get(mkey, 0)) if mkey in data.metrics else "N/A" }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if charts %}
+<h2 style="margin: 1.5rem 0 1rem;">Metric Curves</h2>
+<div class="grid-2">
+    {% for chart_name, chart_b64 in charts.items() %}
+    <div class="card">
+        <h2>{{ chart_name.replace('_', ' ').title() }}</h2>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart_b64 }}" alt="{{ chart_name }}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if scatter_charts %}
+<h2 style="margin: 1.5rem 0 1rem;">Parameter vs Metric</h2>
+<div class="grid-2">
+    {% for chart_name, chart_b64 in scatter_charts.items() %}
+    <div class="card">
+        <h2>{{ chart_name.replace('_', ' ').title() }}</h2>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart_b64 }}" alt="{{ chart_name }}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

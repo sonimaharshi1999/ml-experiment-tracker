@@ -1,0 +1,32 @@
+{
+  "project_name": "ml-experiment-tracker",
+  "title": "ML Experiment Tracker",
+  "category": "mlops",
+  "difficulty": "advanced",
+  "description": "Lightweight experiment tracking system. Log hyperparameters, metrics, artifacts. Compare experiments with Flask dashboard. SQLite-backed, zero-config.",
+  "tech_stack": [
+    "flask",
+    "pandas",
+    "matplotlib",
+    "click",
+    "pydantic",
+    "pytest"
+  ],
+  "features": [
+    "Log parameters, metrics, artifacts",
+    "Tag-based organization",
+    "Flask dashboard with charts",
+    "Metric visualization",
+    "CLI for listing/exporting",
+    "CSV/JSON export"
+  ],
+  "test_status": "PASSED",
+  "sample_input": {
+    "description": "Training run data",
+    "example": "python cli.py experiments && python cli.py dashboard"
+  },
+  "sample_output": {
+    "description": "Experiment comparison",
+    "example": "Best: accuracy=0.94 (run_3, lr=0.001, epochs=50)"
+  }
+}
