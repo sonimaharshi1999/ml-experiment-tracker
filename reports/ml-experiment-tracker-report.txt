@@ -1,0 +1,93 @@
+======================================================================
+  ML Experiment Tracker
+======================================================================
+
+Author: Maharshi Soni
+Category: mlops
+Difficulty: advanced
+
+----------------------------------------------------------------------
+DESCRIPTION
+----------------------------------------------------------------------
+Lightweight experiment tracking system. Log hyperparameters, metrics, artifacts. Compare experiments with Flask dashboard. SQLite-backed, zero-config.
+
+----------------------------------------------------------------------
+TECH STACK
+----------------------------------------------------------------------
+  - flask
+  - pandas
+  - matplotlib
+  - click
+  - pydantic
+  - pytest
+
+----------------------------------------------------------------------
+FEATURES
+----------------------------------------------------------------------
+  * Log parameters, metrics, artifacts
+  * Tag-based organization
+  * Flask dashboard with charts
+  * Metric visualization
+  * CLI for listing/exporting
+  * CSV/JSON export
+
+----------------------------------------------------------------------
+SAMPLE INPUT
+----------------------------------------------------------------------
+  Training run data
+
+  Example:
+    python cli.py experiments && python cli.py dashboard
+
+----------------------------------------------------------------------
+SAMPLE OUTPUT
+----------------------------------------------------------------------
+  Experiment comparison
+
+  Example:
+    Best: accuracy=0.94 (run_3, lr=0.001, epochs=50)
+
+----------------------------------------------------------------------
+PROJECT STRUCTURE
+----------------------------------------------------------------------
+  .gitignore
+  cli.py
+  generate_synthetic_data.py
+  project-idea.json
+  pyproject.toml
+  README.md
+  requirements.txt
+  .github/workflows/test.yml
+  dashboard/app.py
+  dashboard/__init__.py
+  dashboard/templates/base.html
+  dashboard/templates/compare.html
+  dashboard/templates/compare_select.html
+  dashboard/templates/error.html
+  dashboard/templates/experiment.html
+  dashboard/templates/index.html
+  dashboard/templates/run.html
+  tests/conftest.py
+  tests/test_dashboard.py
+  tests/test_models.py
+  tests/test_store.py
+  tests/test_tracker.py
+  tests/test_visualizations.py
+  tests/__init__.py
+  tracker/models.py
+  tracker/store.py
+  tracker/tracker.py
+  tracker/visualizations.py
+  tracker/__init__.py
+
+----------------------------------------------------------------------
+TEST RESULTS
+----------------------------------------------------------------------
+  Status: PASSED
+  Tests Run: 39
+  Passed: 39
+  Failed: 0
+
+======================================================================
+  Author: Maharshi Soni  |  License: MIT
+======================================================================

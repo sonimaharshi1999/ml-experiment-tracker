@@ -1,5 +1,7 @@
 # ML Experiment Tracker
 
+![Tests](https://github.com/sonimaharshi1999/ml-experiment-tracker/actions/workflows/test.yml/badge.svg) ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg) ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+
 **A lightweight, zero-config experiment tracking system for ML workflows.**
 
 Log hyperparameters, metrics, artifacts, and model metadata across training runs. Compare experiments side-by-side with a Flask web dashboard. SQLite-backed with no external infrastructure required.
@@ -272,6 +274,25 @@ python -m pytest tests/ -v
 ```
 
 ---
+
+
+
+---
+
+## Sample Input / Output
+
+![Sample Input and Output](assets/io-card.png)
+
+---
+
+## Project Overview
+
+![Project Summary](assets/report-card.png)
+
+### Reports
+- [HTML Report](reports/ml-experiment-tracker-report.html) - interactive report
+- [PDF Report](reports/ml-experiment-tracker-report.pdf) - downloadable PDF
+- [TXT Report](reports/ml-experiment-tracker-report.txt) - plain text
 
 ## License
 
